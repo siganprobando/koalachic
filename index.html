@@ -71,6 +71,7 @@ img{display:block}
 .p h3{font-size:13.5px;font-weight:600;line-height:1.25}
 .p .s{font-size:11px;color:var(--mut);margin-top:3px}
 .p .row{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:8px}
+.price small.bs{display:block;font-family:inherit;font-size:11.5px;font-weight:600;color:var(--mut);margin-top:1px}
 .p .price{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--gold2)}
 .p .ask{border:0;border-radius:999px;background:var(--goldg);color:#ffffff;font-size:12.5px;font-weight:700;padding:7px 14px}
 .empty{grid-column:1/-1;text-align:center;color:var(--mut);padding:40px 10px;border:1px dashed var(--line);border-radius:18px}
@@ -163,6 +164,14 @@ img{display:block}
   if (!(window.APP_CONFIG || {}).sheetId) N.bannerDemo();
   let db, S = {}, CATS = [], SETS = [], products = [];
   const money = n => N.money0(n, S.moneda || "$");
+  let RATE = 0, RATEF = "";
+  const bsv = n => (n * RATE).toLocaleString("es-VE", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const bs = n => RATE ? `<small class="bs">Bs ${bsv(n)}</small>` : "";
+  async function tasa(){
+    const tx = String(S.tasa || "").trim(), m = Number(tx.includes(",") ? tx.replace(/\./g, "").replace(",", ".") : tx);
+    if (S.tasa && m > 0) { RATE = m; RATEF = "Tasa"; return; }
+    try { const r = await (await fetch("https://ve.dolarapi.com/v1/dolares/oficial")).json(); if (r.promedio > 0) { RATE = r.promedio; RATEF = "Tasa BCV del día"; } } catch(e) {}
+  }
   const st = { cat: "todo", size: null, q: "", sort: "new", pick: null, psize: null, qty: 1, foto: 0 };
   try { db = await N.listo(); }
   catch(e) { if (e.code === "NO_CONFIG") return N.pantallaSinConexion("#"); throw e; }
@@ -211,7 +220,7 @@ img{display:block}
     $("#heroImg").src = N.img(S.banner) || "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
     $("#heroSub").textContent = S.lema || "";
     $("#heroBadge").textContent = S.insignia || "Nuevo"; $("#heroBadge").style.display = S.insignia === "" ? "none" : "";
-    $("#ship").textContent = S.envios || "";
+    $("#ship").innerHTML = esc(S.envios || "") + (RATE ? `<br><b>💱 ${RATEF}: Bs ${RATE.toLocaleString("es-VE", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} por $</b>` : "");
     const w = N.waNum(S.whatsapp);
     $("#waTop").style.display = w ? "" : "none";
     $("#waTop").href = `https://wa.me/${w}?text=${encodeURIComponent("¡Hola " + nom + "! Quiero información sobre el catálogo 👗👟")}`;
@@ -261,7 +270,7 @@ img{display:block}
     g.innerHTML = list.map(p => { const ts = tallasDe(p); return `<article class="p">
       <div class="ph">${p.fotos[0] ? `<img src="${esc(N.img(p.fotos[0]))}" alt="${esc(p.nombre)}" loading="lazy">` : ""}${p.nuevo ? `<span class="new">Nuevo</span>` : ""}</div>
       <div class="b"><h3>${esc(p.nombre)}</h3><div class="s">${ts.length ? "Tallas: " + ts.map(esc).join(" · ") : "Agotado"}</div>
-      <div class="row"><span class="price">${money(p.precio)}</span><button class="ask" data-id="${p.id}" ${ts.length ? "" : "disabled style=\"opacity:.5\""}>Pedir</button></div></div></article>`; }).join("");
+      <div class="row"><span class="price">${money(p.precio)}${bs(p.precio)}</span><button class="ask" data-id="${p.id}" ${ts.length ? "" : "disabled style=\"opacity:.5\""}>Pedir</button></div></div></article>`; }).join("");
     g.querySelectorAll(".ask").forEach(b => b.onclick = () => open(products.find(p => p.id === b.dataset.id)));
   }
   $("#q").addEventListener("input", e => { st.q = e.target.value.trim(); render(); });
@@ -270,7 +279,7 @@ img{display:block}
   // Hoja de pedido
   function open(p){
     st.pick = p; st.psize = st.size && tallasDe(p).includes(st.size) ? st.size : null; st.qty = 1; st.foto = 0;
-    $("#shName").textContent = p.nombre; $("#shPrice").textContent = money(p.precio); $("#shDesc").textContent = p.descripcion || "";
+    $("#shName").textContent = p.nombre; $("#shPrice").innerHTML = money(p.precio) + bs(p.precio); $("#shDesc").textContent = p.descripcion || "";
     const todas = uniq((setDe(p.categoria_id) || []).concat(p.tallas.map(x => x.t)));
     $("#shSizes").innerHTML = todas.map(s => { const t = p.tallas.find(x => x.t === s); const ok = t && disp(t); const pocas = t && t.stock != null && t.stock > 0 && t.stock <= 2;
       return `<button class="sz" data-s="${esc(s)}" ${ok ? "" : "disabled"}>${esc(s)}${pocas ? `<small>quedan ${t.stock}</small>` : ""}</button>`; }).join("");
@@ -303,7 +312,7 @@ img{display:block}
     localStorage.setItem("cat_cliente", JSON.stringify({ n: cli, t: tel }));
     let msg = `🛍️ *Pedido ${cod} · ${S.nombre || ""}*\n\n`;
     msg += `👗 Producto: *${p.nombre}*\n📏 Talla: *${st.psize}*\n🔢 Cantidad: ${st.qty}\n💲 Precio: ${money(p.precio)} c/u\n\n`;
-    msg += `💰 *Total: ${money(p.precio * st.qty)}*\n👤 ${cli}${tel ? " · " + tel : ""}\n\n¿Está disponible? Quiero coordinar el pago y el envío 🚚\n\n_Enviado desde el catálogo en línea_`;
+    msg += `💰 *Total: ${money(p.precio * st.qty)}*${RATE ? ` (Bs ${bsv(p.precio * st.qty)})` : ""}\n👤 ${cli}${tel ? " · " + tel : ""}\n\n¿Está disponible? Quiero coordinar el pago y el envío 🚚\n\n_Enviado desde el catálogo en línea_`;
     if (N.waNum(S.whatsapp)) window.open(`https://wa.me/${N.waNum(S.whatsapp)}?text=${encodeURIComponent(msg)}`, "_blank");
     const b = $("#order"); b.disabled = true;
     try {
@@ -315,7 +324,7 @@ img{display:block}
     finally { b.disabled = false; sheet(); }
   };
 
-  cabecera(); renderCats(); render();
+  await tasa(); cabecera(); renderCats(); render();
   const recargar = async () => { try { await cargar(); cabecera(); renderCats(); render(); } catch(e) {} };
   document.addEventListener("visibilitychange", () => { if (!document.hidden) recargar(); });
   if (db.modo === "demo") ["cat_productos","cat_categorias","cat_ajustes","cat_tallas"].forEach(t => db.subscribe(t, recargar));
