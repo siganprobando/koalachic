@@ -31,6 +31,7 @@ img{display:block}
 .logo small{display:block;font-family:'Poppins';font-size:10.5px;font-weight:500;letter-spacing:2px;color:var(--mut);text-transform:uppercase;margin-top:-2px}
 .wa-top{display:flex;align-items:center;gap:6px;border:1px solid var(--line2);border-radius:999px;padding:7px 12px;font-size:12px;color:var(--gold2);background:#f6ebe7;text-decoration:none}
 .hero{position:relative;margin:4px 16px 0;height:190px;border-radius:24px;overflow:hidden;border:1px solid var(--line)}
+.rate{position:absolute;top:12px;right:12px;z-index:3;border:0;border-radius:999px;padding:7px 12px;font-size:12px;font-weight:700;background:var(--goldg);color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.15)}
 .hero img{width:100%;height:100%;object-fit:cover;filter:brightness(.95)}
 .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(251,244,241,.92) 0%,rgba(164,134,123,.15) 75%)}
 .hero-in{position:absolute;inset:0;z-index:2;padding:20px;display:flex;flex-direction:column;justify-content:center}
@@ -116,6 +117,7 @@ img{display:block}
 </header>
 
 <section class="hero">
+  <button class="rate" id="rateBtn" style="display:none">💱 Tasa del día</button>
   <img id="heroImg" alt="">
   <div class="hero-in">
     <span class="badge" id="heroBadge"></span>
@@ -220,7 +222,10 @@ img{display:block}
     $("#heroImg").src = N.img(S.banner) || "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
     $("#heroSub").textContent = S.lema || "";
     $("#heroBadge").textContent = S.insignia || "Nuevo"; $("#heroBadge").style.display = S.insignia === "" ? "none" : "";
-    $("#ship").innerHTML = esc(S.envios || "") + (RATE ? `<br><b>💱 ${RATEF}: Bs ${RATE.toLocaleString("es-VE", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} por $</b>` : "");
+    $("#ship").innerHTML = esc(S.envios || "");
+    const rb = $("#rateBtn"), rt = `💱 ${RATEF}: Bs ${RATE.toLocaleString("es-VE", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} por $`;
+    rb.style.display = RATE ? "" : "none"; rb.textContent = "💱 Tasa del día";
+    rb.onclick = () => { rb.textContent = rb.textContent === rt ? "💱 Tasa del día" : rt; };
     const w = N.waNum(S.whatsapp);
     $("#waTop").style.display = w ? "" : "none";
     $("#waTop").href = `https://wa.me/${w}?text=${encodeURIComponent("¡Hola " + nom + "! Quiero información sobre el catálogo 👗👟")}`;
