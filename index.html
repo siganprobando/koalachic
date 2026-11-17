@@ -202,7 +202,7 @@ img{display:block}
       const NOMS = (window.APP_CONFIG.categorias || ["Chaquetas", "Bodies", "Blusas", "Suéteres Tejidos"]), TS = ["XS", "S", "M", "L", "XL"];
       SETS = [{ id: "t", tallas: TS }]; CATS = NOMS.map((n, i) => ({ id: "c" + i, nombre: n, tallas_id: "t", orden: i }));
       const cid = n => { const i = NOMS.findIndex(x => x.toLowerCase() === String(n || "").trim().toLowerCase()); return i < 0 ? null : "c" + i; };
-      products = pr.filter(r => String(r[0] || "").trim() && si(r[10]) && cid(r[1])).map((r, i) => ({
+      products = pr.filter(r => String(r[0] || "").trim() && si(r[10]) && cid(r[1])).slice(0, 1000).map((r, i) => ({
         id: "s" + (i + 2), categoria_id: cid(r[1]), nombre: r[0].trim(), descripcion: r[11] || "", precio: Number(String(r[2]).replace(",", ".")) || 0,
         tallas: TS.filter((t, k) => si(r[3 + k])).map(t => ({ t, stock: null })), fotos: [foto(r[8]), foto(r[9])].filter(Boolean), nuevo: false, activo: true, orden: i, creado: "" }));
     }
