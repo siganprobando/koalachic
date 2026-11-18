@@ -8,7 +8,7 @@
   window.APP = {
     id: "catalogo-tallas", prefix: "cat", bucket: "cat-imagenes", titulo: "Catálogo por talla", icono: "👗", ownerRpc: "cat_reclamar", seedVersion: 5,
     seed: {
-      cat_ajustes: [{ id: 1, datos: { nombre: "Koala Chic", lema: "Promo del viernes 27 · Prendas a $3 y $4 · Envíos a toda Venezuela", subtitulo: "Catálogo de ropa", insignia: "Promo viernes 27", whatsapp: "584221494236", moneda: "$", banner: "img/portada-tienda.webp", logo: "img/logo.png", envios: "🚚 Envíos a toda Venezuela · Pago móvil o Zelle" } }],
+      cat_ajustes: [{ id: 1, datos: { nombre: "Koala Chic", lema: "Promo del viernes 27 · Prendas a $3 y $4 · Envíos a toda Venezuela", subtitulo: "Catálogo de ropa", insignia: "Promo viernes 27", whatsapp: "584247069240", moneda: "$", banner: "img/portada-tienda.webp", logo: "img/logo.png", envios: "🚚 Envíos a toda Venezuela · Pago móvil o Zelle" } }],
       cat_tallas: [{ id: T(1), nombre: "Ropa", tallas: ROPA, orden: 1 }],
       cat_categorias: [
         { id: C(1), nombre: "Chaquetas", tallas_id: T(1), orden: 1 }, { id: C(2), nombre: "Bodies", tallas_id: T(1), orden: 2 }, { id: C(3), nombre: "Blusas", tallas_id: T(1), orden: 3 }, { id: C(4), nombre: "Suéteres Tejidos", tallas_id: T(1), orden: 4 }],
