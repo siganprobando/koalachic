@@ -127,6 +127,40 @@ img{display:block}
 #zInfo{padding:12px 18px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px;color:#fff}
 #zName{font-family:'Playfair Display',serif;font-size:19px;font-weight:700}#zPrice{font-size:13.5px;color:#ffc3df;margin-top:2px}
 .p .ph{cursor:zoom-in}
+#addCart{width:100%;margin-top:10px;border:1.5px solid var(--gold2);background:transparent;color:var(--gold2);border-radius:999px;padding:12px;font-weight:700;font-size:14.5px;font-family:inherit}
+#addCart:disabled{opacity:.45}
+#cartFab{position:fixed;right:16px;bottom:18px;z-index:55;width:58px;height:58px;border-radius:50%;border:0;background:var(--goldg);color:#fff;font-size:24px;box-shadow:0 8px 24px rgba(0,0,0,.25);display:none}
+#cartFab.on{display:block;animation:pop .35s}#cartFab b{position:absolute;top:-4px;right:-4px;min-width:22px;height:22px;border-radius:11px;background:#ff4fa3;color:#fff;font-size:12px;line-height:22px;padding:0 5px}
+@keyframes pop{0%{transform:scale(.6)}70%{transform:scale(1.12)}100%{transform:scale(1)}}
+.ci{display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line2)}.ci img{width:54px;height:66px;object-fit:cover;border-radius:10px;background:#eee}
+.ci .t{flex:1;min-width:0;font-size:13.5px}.ci .t b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ci .t small{color:var(--mut)}
+.ci .q{display:flex;align-items:center;gap:6px}.ci .q button{width:28px;height:28px;border-radius:50%;border:1px solid var(--line2);background:#fff;font-size:16px}
+.ctot{display:flex;justify-content:space-between;align-items:baseline;margin:14px 0 4px;font-weight:700;font-size:17px}.ctot small{color:var(--mut);font-weight:500;font-size:13px}
+.cempty{text-align:center;color:var(--mut);padding:26px 0}
+#zInfo{display:block!important;padding:10px 18px 20px!important;max-height:42vh;overflow:auto}
+#zDesc{font-size:12.5px;color:#e9d6dd;margin:4px 0 8px;line-height:1.4}#zDesc:empty{display:none}
+#zPrice s{opacity:.6;margin-right:6px}
+#zSizes{display:flex;flex-wrap:wrap;gap:7px;margin:4px 0 12px}#zSizes button{min-width:42px;padding:7px 11px;border-radius:999px;border:1px solid rgba(255,255,255,.4);background:transparent;color:#fff;font-weight:600;font-family:inherit}
+#zSizes button.on{background:#ff4fa3;border-color:#ff4fa3}#zSizes button:disabled{opacity:.3;text-decoration:line-through}
+#zBtnW{position:relative;display:flex;justify-content:center}
+#zAdd{position:relative;border:0;border-radius:999px;padding:13px 28px;font-weight:800;font-size:15px;font-family:inherit;color:#2a1a05;background:linear-gradient(110deg,#9c6b16 0%,#f6d77a 30%,#fff1b8 45%,#d9a93f 60%,#8e5f12 100%);background-size:250% 100%;box-shadow:0 0 18px rgba(255,200,90,.55);animation:zflot 2.6s ease-in-out infinite,zluz 3s linear infinite,zglow 2s ease-in-out infinite}
+#zAdd:disabled{filter:grayscale(.5) brightness(.85);animation:zflot 2.6s ease-in-out infinite}
+@keyframes zflot{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes zluz{0%{background-position:100% 0}100%{background-position:-150% 0}}
+@keyframes zglow{0%,100%{box-shadow:0 0 12px rgba(255,200,90,.45)}50%{box-shadow:0 0 28px rgba(255,215,120,.95)}}
+.zsp{position:absolute;inset:-14px 0 auto;height:14px;pointer-events:none}.zsp i{position:absolute;bottom:0;font-style:normal;color:#ffe9a0;text-shadow:0 0 6px #ffd76a;opacity:0;animation:zesc 2.2s ease-out infinite}
+.zsp i:nth-child(1){left:28%}.zsp i:nth-child(2){left:38%;animation-delay:.4s}.zsp i:nth-child(3){left:50%;animation-delay:.8s}.zsp i:nth-child(4){left:60%;animation-delay:1.2s}.zsp i:nth-child(5){left:70%;animation-delay:1.6s}.zsp i:nth-child(6){left:45%;animation-delay:1.9s}
+@keyframes zesc{0%{transform:translateY(8px) scale(.4);opacity:0}25%{opacity:1}100%{transform:translateY(-22px) scale(1.1) rotate(90deg);opacity:0}}
+#zStage{padding-top:50px!important}
+#kGps{width:100%;border:1.5px dashed #ff4fa3;background:#fff0f7;color:#d6157a;border-radius:14px;padding:12px;font-weight:700;font-size:14px;font-family:inherit}
+#kGps.ok{border-style:solid;background:#ffe1f0}
+#kDir{width:100%;resize:vertical;font-family:inherit;font-size:14px}
+#cartFab{background:radial-gradient(circle at 30% 30%,#ff8cc6,#ff2d95 55%,#c40f6b)!important;width:62px!important;height:62px!important;animation:fflot 2.6s ease-in-out infinite,fglow 1.8s ease-in-out infinite!important;overflow:visible}
+#cartFab b{background:#fff!important;color:#e0137f!important;font-weight:800;box-shadow:0 0 10px #fff,0 0 4px #ff9fd0}
+@keyframes fflot{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes fglow{0%,100%{box-shadow:0 0 12px rgba(255,45,149,.55),0 6px 18px rgba(0,0,0,.25)}50%{box-shadow:0 0 30px rgba(255,80,170,1),0 6px 18px rgba(0,0,0,.25)}}
+#cartFab .fsp{position:absolute;inset:-16px -10px auto;height:16px;pointer-events:none}#cartFab .fsp i{position:absolute;bottom:0;font-size:12px;font-style:normal;color:#fff;text-shadow:0 0 6px #ff6ab8,0 0 3px #fff;opacity:0;animation:zesc 2s ease-out infinite}
+#cartFab .fsp i:nth-child(1){left:10%}#cartFab .fsp i:nth-child(2){left:40%;animation-delay:.5s}#cartFab .fsp i:nth-child(3){left:70%;animation-delay:1s}#cartFab .fsp i:nth-child(4){left:25%;animation-delay:1.5s}
 </style>
 </head>
 <body>
@@ -175,11 +209,28 @@ img{display:block}
   <div class="sh-lbl">Tus datos</div>
   <div class="two"><div class="fld" style="margin:0"><input id="cN" autocomplete="name" placeholder="Tu nombre" maxlength="80"></div><div class="fld" style="margin:0"><input id="cT" type="tel" inputmode="tel" autocomplete="tel" placeholder="Teléfono" maxlength="30"></div></div>
   <button class="btn" id="order" disabled><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6-.3.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.1 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.6-.1 1.2Z"/></svg><span id="orderTxt">Elige una talla</span></button>
+  <button id="addCart" disabled>🛒 Agregar al carrito</button>
   <p class="okm" id="okm"></p>
   <p class="ship" id="ship"></p>
 </section>
 
-<div id="zoom" role="dialog" aria-modal="true"><button id="zClose" aria-label="Cerrar">×</button><div id="zStage"><img id="zImg" alt=""></div><button class="znav" id="zPrev" aria-label="Anterior">‹</button><button class="znav" id="zNext" aria-label="Siguiente">›</button><div id="zDots"></div><div id="zInfo"><div><div id="zName"></div><div id="zPrice"></div></div></div></div>
+<button id="cartFab" aria-label="Ver carrito"><span class="fsp"><i>✦</i><i>✧</i><i>✦</i><i>✧</i></span>🛒<b id="cartN">0</b></button>
+<section class="sheet" id="cart" role="dialog" aria-modal="true">
+  <div class="grab"></div>
+  <button class="x" id="cClose" aria-label="Cerrar">×</button>
+  <h2 class="serif" style="margin:4px 0 6px">Tu carrito</h2>
+  <div id="cList"></div>
+  <div id="cFoot">
+  <div class="ctot"><span>Total</span><span id="cTot"></span></div>
+  <div class="sh-lbl">Tus datos</div>
+  <div class="fld" style="margin:0 0 10px"><input id="kN" autocomplete="name" placeholder="Tu nombre y apellido" maxlength="80"></div>
+  <button id="kGps" type="button">📍 Usar mi ubicación actual</button>
+  <div class="fld" style="margin:8px 0 0"><textarea id="kDir" rows="2" maxlength="300" placeholder="Dirección de envío (o toca el botón de arriba)"></textarea></div>
+  <button class="btn" id="cOrder" disabled>Pedir todo por WhatsApp</button>
+  <button id="cVaciar" style="display:block;margin:12px auto 0;border:0;background:none;color:var(--mut);font-size:13px;text-decoration:underline">Vaciar carrito</button>
+  </div>
+</section>
+<div id="zoom" role="dialog" aria-modal="true"><button id="zClose" aria-label="Cerrar">×</button><div id="zStage"><img id="zImg" alt=""></div><button class="znav" id="zPrev" aria-label="Anterior">‹</button><button class="znav" id="zNext" aria-label="Siguiente">›</button><div id="zDots"></div><div id="zInfo"><div id="zName"></div><div id="zPrice"></div><div id="zDesc"></div><div id="zSizes"></div><div id="zBtnW"><span class="zsp"><i>✦</i><i>✧</i><i>✦</i><i>✧</i><i>✦</i><i>✧</i></span><button id="zAdd">🛒 Elige tu talla</button></div></div></div>
 <script>
 (async function(){
   const N = Nucleo, $ = N.$, esc = N.esc;
@@ -305,7 +356,7 @@ img{display:block}
       <div class="ph" data-id="${p.id}">${p.fotos[0] ? `<img src="${esc(N.img(p.fotos[0]))}" alt="${esc(p.nombre)}" loading="lazy">` : ""}${p.promo ? `<span class="promo">PROMO</span><span class="off">-${Math.round((1 - p.precio / p.antes) * 100)}%</span>` : p.nuevo ? `<span class="new">Nuevo</span>` : ""}</div>
       <div class="b"><h3>${esc(p.nombre)}</h3><div class="s">${ts.length ? "Tallas: " + ts.map(esc).join(" · ") : "Agotado"}</div>
       <div class="row"><span class="price">${p.promo ? `<s class="antes">${money(p.antes)}</s>` : ""}${money(p.precio)}${bs(p.precio)}</span><button class="ask" data-id="${p.id}" ${ts.length ? "" : "disabled style=\"opacity:.5\""}>Pedir</button></div></div></article>`; }).join("");
-    g.querySelectorAll(".ask").forEach(b => b.onclick = () => open(products.find(p => p.id === b.dataset.id)));
+    g.querySelectorAll(".ask").forEach(b => b.onclick = () => { const p = products.find(p => p.id === b.dataset.id); p.fotos.length ? zoom(p, 0) : open(p); });
     g.querySelectorAll(".ph").forEach(b => b.onclick = () => zoom(products.find(p => p.id === b.dataset.id), 0));
   }
   $("#q").addEventListener("input", e => { st.q = e.target.value.trim(); render(); });
@@ -334,15 +385,59 @@ img{display:block}
     $("#shSizes").querySelectorAll(".sz").forEach(b => b.classList.toggle("on", b.dataset.s === st.psize));
     $("#qv").textContent = st.qty;
     $("#order").disabled = !st.psize || !okDatos();
+    $("#addCart").disabled = !st.psize;
     $("#orderTxt").textContent = !st.psize ? "Elige una talla" : !okDatos() ? "Escribe tu nombre" : `Pedir por WhatsApp · ${money(st.pick.precio * st.qty)}`;
   }
   $("#cN").addEventListener("input", sheet);
-  const close = () => { $("#ov").classList.remove("show"); $("#sheet").classList.remove("show"); };
+  const close = () => { $("#ov").classList.remove("show"); $("#sheet").classList.remove("show"); $("#cart").classList.remove("show"); };
+  let cart = []; try { cart = JSON.parse(localStorage.getItem("cat_carrito") || "[]"); } catch(e) {}
+  const cSave = () => { localStorage.setItem("cat_carrito", JSON.stringify(cart)); const n = cart.reduce((a, x) => a + x.cant, 0); $("#cartN").textContent = n; $("#cartFab").classList.toggle("on", n > 0); };
+  const cTotal = () => cart.reduce((a, x) => a + x.precio * x.cant, 0);
+  function cRender(){
+    $("#cList").innerHTML = cart.length ? cart.map((x, i) => `<div class="ci"><img src="${x.foto ? esc(N.img(x.foto)) : ""}" alt=""><div class="t"><b>${esc(x.nombre)}</b><small>Talla ${esc(x.talla)} · ${money(x.precio)} c/u</small></div><div class="q"><button data-i="${i}" data-d="-1">−</button><b>${x.cant}</b><button data-i="${i}" data-d="1">+</button></div></div>`).join("") : `<p class="cempty">Tu carrito está vacío 🛍️</p>`;
+    $("#cFoot").style.display = cart.length ? "" : "none";
+    $("#cTot").innerHTML = money(cTotal()) + (RATE ? ` <small>· Bs ${bsv(cTotal())}</small>` : "");
+    $("#cOrder").disabled = !cart.length || $("#kN").value.trim().length < 2;
+    $("#cList").querySelectorAll("button").forEach(b => b.onclick = () => { const x = cart[+b.dataset.i]; x.cant += +b.dataset.d; if (x.cant < 1) cart.splice(+b.dataset.i, 1); else x.cant = Math.min(20, x.cant); cSave(); cRender(); });
+  }
+  function cOpen(){ try { const c = JSON.parse(localStorage.getItem("cat_cliente") || "{}"); if (c.n && !$("#kN").value) $("#kN").value = c.n; if (c.d && !$("#kDir").value) $("#kDir").value = c.d; } catch(e) {}
+    cRender(); $("#sheet").classList.remove("show"); $("#ov").classList.add("show"); $("#cart").classList.add("show"); }
+  $("#zAdd").onclick = e => { e.stopPropagation(); const z = $("#zoom"), p = z._p; if (!z._s) return; const x = cart.find(y => y.id === p.id && y.talla === z._s);
+    if (x) x.cant = Math.min(20, x.cant + 1); else cart.push({ id: p.id, nombre: p.nombre, precio: p.precio, antes: p.promo ? p.antes : null, talla: z._s, cant: 1, foto: p.fotos[0] || "" });
+    cSave(); N.toast("🛒 Agregado al carrito"); unzoom(); };
+  let GEO = "";
+  $("#kGps").onclick = () => { const b = $("#kGps"); if (!navigator.geolocation) return N.toast("⚠️ Tu teléfono no permite ubicación");
+    b.textContent = "📍 Buscando tu ubicación…";
+    navigator.geolocation.getCurrentPosition(async pos => { const la = pos.coords.latitude.toFixed(6), lo = pos.coords.longitude.toFixed(6); GEO = la + "," + lo;
+      try { const r = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${la}&lon=${lo}&accept-language=es&zoom=18`); const j = await r.json(); if (j.display_name && !$("#kDir").value.trim()) $("#kDir").value = j.display_name; } catch(e) {}
+      b.textContent = "✓ Ubicación agregada"; b.classList.add("ok"); },
+      () => { b.textContent = "📍 Usar mi ubicación actual"; N.toast("⚠️ Activa la ubicación y permite el acceso", 4000); }, { enableHighAccuracy: true, timeout: 15000 }); };
+  $("#cartFab").onclick = cOpen; $("#cClose").onclick = close; $("#kN").addEventListener("input", cRender);
+  $("#cVaciar").onclick = () => { cart = []; cSave(); cRender(); };
+  $("#addCart").onclick = () => { if (!st.psize) return; const p = st.pick; const x = cart.find(y => y.id === p.id && y.talla === st.psize);
+    if (x) x.cant = Math.min(20, x.cant + st.qty); else cart.push({ id: p.id, nombre: p.nombre, precio: p.precio, antes: p.promo ? p.antes : null, talla: st.psize, cant: st.qty, foto: p.fotos[0] || "" });
+    cSave(); N.toast("🛒 Agregado al carrito"); close(); };
+  $("#cOrder").onclick = async () => { if (!cart.length) return; const cli = $("#kN").value.trim().slice(0, 80), dir = $("#kDir").value.trim().slice(0, 300), tel = ""; if (cli.length < 2) return;
+    localStorage.setItem("cat_cliente", JSON.stringify({ n: cli, d: dir })); const cod = N.codigo("C");
+    let msg = `🛍️ *Pedido ${cod} · ${S.nombre || ""}*\n\n`;
+    cart.forEach((x, i) => { msg += `${i + 1}. *${x.nombre}*\n   Talla ${x.talla} · ${x.cant} x ${money(x.precio)}${x.antes ? " (PROMO)" : ""} = ${money(x.precio * x.cant)}\n`; });
+    msg += `\n💰 *Total: ${money(cTotal())}*${RATE ? ` (Bs ${bsv(cTotal())})` : ""}\n👤 ${cli}${dir ? "\n📍 Envío: " + dir : ""}${GEO ? "\n🗺️ Ubicación: https://www.google.com/maps?q=" + GEO : ""}\n\n¿Está disponible? Quiero coordinar el pago y el envío 🚚\n\n_Enviado desde el catálogo en línea_`;
+    if (N.waNum(S.whatsapp)) window.open(`https://wa.me/${N.waNum(S.whatsapp)}?text=${encodeURIComponent(msg)}`, "_blank");
+    try { if (!(window.APP_CONFIG || {}).sheetId) await db.insert("cat_pedidos", { id: N.uid(), codigo: cod, cliente: cli, telefono: tel, items: cart.map(x => ({ id: x.id, nombre: x.nombre, precio: x.precio, talla: x.talla, cant: x.cant })), total: cTotal(), estado: "nuevo" }); } catch(e) {}
+    N.toast("✓ Pedido " + cod + " enviado"); cart = []; cSave(); setTimeout(close, 1200); };
+  cSave();
   function zoom(p, i) { if (!p || !p.fotos.length) return; const z = $("#zoom"); z._p = p; z._i = i || 0;
-    const f = p.fotos; $("#zImg").src = N.img(f[z._i]); $("#zName").textContent = p.nombre; $("#zPrice").textContent = money(p.precio) + (RATE ? " · Bs " + bsv(p.precio) : "");
+    const f = p.fotos; $("#zImg").src = N.img(f[z._i]); $("#zName").textContent = p.nombre; $("#zPrice").innerHTML = (p.promo ? `<s>${money(p.antes)}</s>` : "") + money(p.precio) + (RATE ? " · Bs " + bsv(p.precio) : ""); $("#zDesc").textContent = p.descripcion || "";
+    if (z._pid !== p.id) { z._pid = p.id; z._s = st.size && tallasDe(p).includes(st.size) ? st.size : null;
+      const todas = uniq((setDe(p.categoria_id) || []).concat(p.tallas.map(x => x.t)));
+      if (!todas.length) z._s = "Única";
+      $("#zSizes").innerHTML = todas.map(s => { const t = p.tallas.find(x => x.t === s); return `<button data-s="${esc(s)}" ${t && disp(t) ? "" : "disabled"}>${esc(s)}</button>`; }).join("");
+      $("#zSizes").querySelectorAll("button:not([disabled])").forEach(b => b.onclick = e => { e.stopPropagation(); z._s = b.dataset.s; zSz(); }); }
+    zSz();
     $("#zDots").innerHTML = f.length > 1 ? f.map((_, k) => `<i class="${k === z._i ? "on" : ""}"></i>`).join("") : "";
     z.querySelectorAll(".znav").forEach(b => b.style.display = f.length > 1 ? "" : "none");
     if (!z.classList.contains("on")) { z.classList.add("on"); document.body.style.overflow = "hidden"; history.pushState({ z: 1 }, ""); } }
+  function zSz(){ const z = $("#zoom"); $("#zSizes").querySelectorAll("button").forEach(b => b.classList.toggle("on", b.dataset.s === z._s)); $("#zAdd").disabled = !z._s; $("#zAdd").textContent = z._s ? "🛒 Agregar al carrito" : "🛒 Elige tu talla"; }
   function unzoom(back) { const z = $("#zoom"); if (!z.classList.contains("on")) return; z.classList.remove("on"); document.body.style.overflow = ""; if (!back) history.back(); }
   addEventListener("popstate", () => unzoom(true));
   $("#zClose").onclick = () => unzoom(); $("#zoom").onclick = e => { if (e.target.id === "zoom" || e.target.id === "zStage") unzoom(); };
