@@ -6,7 +6,7 @@
   const ROPA = ["XS", "S", "M", "L", "XL"], ZAP = ["36", "37", "38", "39", "40", "41"];
   const p = (n, cat, nombre, precio, tallas, foto, fecha, nuevo, stock) => ({ id: I(n), categoria_id: C(cat), nombre, descripcion: "", precio, tallas: tallas.map(t => ({ t, stock: stock && stock[t] != null ? stock[t] : null })), fotos: ["img/" + foto + ".webp"], nuevo: !!nuevo, activo: true, orden: n, creado: fecha + "T12:00:00.000Z" });
   window.APP = {
-    id: "catalogo-tallas", prefix: "cat", bucket: "cat-imagenes", titulo: "Catálogo por talla", icono: "👗", ownerRpc: "cat_reclamar", seedVersion: 5,
+    id: "catalogo-tallas", prefix: "cat", bucket: "cat-imagenes", titulo: "Catálogo por talla", icono: "👗", ownerRpc: "cat_reclamar", seedVersion: 6,
     seed: {
       cat_ajustes: [{ id: 1, datos: { nombre: "Koala Chic", lema: "Promo del viernes 27 · Prendas a $3 y $4 · Envíos a toda Venezuela", subtitulo: "Catálogo de ropa", insignia: "Promo viernes 27", whatsapp: "584247069240", moneda: "$", banner: "img/portada-tienda.webp", logo: "img/logo.png", envios: "🚚 Envíos a toda Venezuela · Pago móvil o Zelle" } }],
       cat_tallas: [{ id: T(1), nombre: "Ropa", tallas: ROPA, orden: 1 }],
