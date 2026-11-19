@@ -115,6 +115,18 @@ img{display:block}
 @keyframes sk{to{background-position:-200% 0}}
 .foot a{color:#9a857c}
 .okm{display:none;text-align:center;color:#2e9d5b;font-size:13px;margin-top:10px}
+#zoom{position:fixed;inset:0;z-index:200;background:rgba(20,10,14,.94);display:flex;flex-direction:column;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+#zoom.on{opacity:1;visibility:visible}
+#zStage{flex:1;display:flex;align-items:center;justify-content:center;padding:56px 10px 8px;min-height:0}
+#zImg{max-width:100%;max-height:100%;object-fit:contain;border-radius:14px;box-shadow:0 10px 40px rgba(0,0,0,.6);transform:scale(.92);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+#zoom.on #zImg{transform:scale(1)}
+#zClose{position:absolute;top:14px;right:14px;width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.12);color:#fff;font-size:24px;line-height:1}
+.znav{position:absolute;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:50%;border:0;background:rgba(255,255,255,.15);color:#fff;font-size:22px}
+#zPrev{left:10px}#zNext{right:10px}
+#zDots{display:flex;gap:6px;justify-content:center;min-height:8px}#zDots i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.35)}#zDots i.on{background:#ff4fa3}
+#zInfo{padding:12px 18px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px;color:#fff}
+#zName{font-family:'Playfair Display',serif;font-size:19px;font-weight:700}#zPrice{font-size:13.5px;color:#ffc3df;margin-top:2px}
+.p .ph{cursor:zoom-in}
 </style>
 </head>
 <body>
@@ -167,6 +179,7 @@ img{display:block}
   <p class="ship" id="ship"></p>
 </section>
 
+<div id="zoom" role="dialog" aria-modal="true"><button id="zClose" aria-label="Cerrar">×</button><div id="zStage"><img id="zImg" alt=""></div><button class="znav" id="zPrev" aria-label="Anterior">‹</button><button class="znav" id="zNext" aria-label="Siguiente">›</button><div id="zDots"></div><div id="zInfo"><div><div id="zName"></div><div id="zPrice"></div></div></div></div>
 <script>
 (async function(){
   const N = Nucleo, $ = N.$, esc = N.esc;
@@ -289,10 +302,11 @@ img{display:block}
     if (!list.length) { g.innerHTML = `<div class="empty">${st.q ? "No encontramos productos con esa búsqueda." : st.size ? "Por ahora no hay prendas en talla " + esc(st.size) + " en esta categoría." : "Muy pronto subiremos prendas en esta categoría."}<br><button id="clr">Limpiar filtros</button></div>`;
       $("#clr").onclick = () => { st.size = null; st.q = ""; $("#q").value = ""; render(); }; return; }
     g.innerHTML = list.map(p => { const ts = tallasDe(p); return `<article class="p">
-      <div class="ph">${p.fotos[0] ? `<img src="${esc(N.img(p.fotos[0]))}" alt="${esc(p.nombre)}" loading="lazy">` : ""}${p.promo ? `<span class="promo">PROMO</span><span class="off">-${Math.round((1 - p.precio / p.antes) * 100)}%</span>` : p.nuevo ? `<span class="new">Nuevo</span>` : ""}</div>
+      <div class="ph" data-id="${p.id}">${p.fotos[0] ? `<img src="${esc(N.img(p.fotos[0]))}" alt="${esc(p.nombre)}" loading="lazy">` : ""}${p.promo ? `<span class="promo">PROMO</span><span class="off">-${Math.round((1 - p.precio / p.antes) * 100)}%</span>` : p.nuevo ? `<span class="new">Nuevo</span>` : ""}</div>
       <div class="b"><h3>${esc(p.nombre)}</h3><div class="s">${ts.length ? "Tallas: " + ts.map(esc).join(" · ") : "Agotado"}</div>
       <div class="row"><span class="price">${p.promo ? `<s class="antes">${money(p.antes)}</s>` : ""}${money(p.precio)}${bs(p.precio)}</span><button class="ask" data-id="${p.id}" ${ts.length ? "" : "disabled style=\"opacity:.5\""}>Pedir</button></div></div></article>`; }).join("");
     g.querySelectorAll(".ask").forEach(b => b.onclick = () => open(products.find(p => p.id === b.dataset.id)));
+    g.querySelectorAll(".ph").forEach(b => b.onclick = () => zoom(products.find(p => p.id === b.dataset.id), 0));
   }
   $("#q").addEventListener("input", e => { st.q = e.target.value.trim(); render(); });
   $("#sort").addEventListener("change", e => { st.sort = e.target.value; render(); });
@@ -324,6 +338,18 @@ img{display:block}
   }
   $("#cN").addEventListener("input", sheet);
   const close = () => { $("#ov").classList.remove("show"); $("#sheet").classList.remove("show"); };
+  function zoom(p, i) { if (!p || !p.fotos.length) return; const z = $("#zoom"); z._p = p; z._i = i || 0;
+    const f = p.fotos; $("#zImg").src = N.img(f[z._i]); $("#zName").textContent = p.nombre; $("#zPrice").textContent = money(p.precio) + (RATE ? " · Bs " + bsv(p.precio) : "");
+    $("#zDots").innerHTML = f.length > 1 ? f.map((_, k) => `<i class="${k === z._i ? "on" : ""}"></i>`).join("") : "";
+    z.querySelectorAll(".znav").forEach(b => b.style.display = f.length > 1 ? "" : "none");
+    if (!z.classList.contains("on")) { z.classList.add("on"); document.body.style.overflow = "hidden"; history.pushState({ z: 1 }, ""); } }
+  function unzoom(back) { const z = $("#zoom"); if (!z.classList.contains("on")) return; z.classList.remove("on"); document.body.style.overflow = ""; if (!back) history.back(); }
+  addEventListener("popstate", () => unzoom(true));
+  $("#zClose").onclick = () => unzoom(); $("#zoom").onclick = e => { if (e.target.id === "zoom" || e.target.id === "zStage") unzoom(); };
+  $("#zPrev").onclick = e => { e.stopPropagation(); const z = $("#zoom"); zoom(z._p, (z._i + z._p.fotos.length - 1) % z._p.fotos.length); };
+  $("#zNext").onclick = e => { e.stopPropagation(); const z = $("#zoom"); zoom(z._p, (z._i + 1) % z._p.fotos.length); };
+  (() => { let x0 = null; const st2 = $("#zStage"); st2.addEventListener("touchstart", e => x0 = e.touches[0].clientX, { passive: true }); st2.addEventListener("touchend", e => { if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; x0 = null; if (Math.abs(dx) > 50) (dx < 0 ? $("#zNext") : $("#zPrev")).click(); }); })();
+  $("#shImg").style.cursor = "zoom-in"; $("#shImg").onclick = () => zoom(st.pick, st.foto || 0);
   $("#ov").onclick = close; $("#shClose").onclick = close;
   $("#qm").onclick = () => { st.qty = Math.max(1, st.qty - 1); sheet(); };
   $("#qp").onclick = () => { st.qty = Math.min(20, st.qty + 1); sheet(); };
