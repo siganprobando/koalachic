@@ -267,7 +267,10 @@ img{display:block}
       const gv = h => fetch(`https://docs.google.com/spreadsheets/d/${SH}/gviz/tq?tqx=out:csv&headers=1&sheet=${encodeURIComponent(h)}&t=${Date.now()}`).then(r => r.text()).then(t => csv(t.trim()).slice(1));
       const foto = u => { const m = String(u || "").match(/(?:\/d\/|[?&]id=)([\w-]{20,})/); return m ? `https://lh3.googleusercontent.com/d/${m[1]}=w800` : (/^https?:/.test(u) ? u : ""); };
       const si = v => String(v).trim().toUpperCase() === "TRUE";
-      const [cf, pr] = await Promise.all([gv("Config"), gv("Productos")]);
+      const cnt = v => { const x = String(v == null ? "" : v).trim().toUpperCase(); if (x === "TRUE") return null; if (!x || x === "FALSE") return 0; const n = parseInt(x, 10); return isFinite(n) ? Math.max(0, n) : 0; };
+      const [cf, pr, ve] = await Promise.all([gv("Config"), gv("Productos"), gv("Ventas").catch(() => [])]);
+      const VK = (n, t) => String(n || "").trim().toLowerCase() + "|" + String(t || "").trim().toUpperCase(), VEN = {};
+      if (ve.length && ve[0].length >= 4 && ve[0].length <= 6) ve.forEach(r => { const q = parseInt(String(r[3] || "").trim(), 10); if (String(r[1] || "").trim() && q > 0) VEN[VK(r[1], r[2])] = (VEN[VK(r[1], r[2])] || 0) + q; });
       const K = { nombre: "nombre", whatsapp: "whatsapp", lema: "lema", "envíos": "envios", envios: "envios", insignia: "insignia", tasa: "tasa" };
       cf.forEach(r => { const k = K[String(r[0] || "").trim().toLowerCase()]; if (k && String(r[1] || "").trim()) S[k] = String(r[1]).trim(); });
       const NOMS = (window.APP_CONFIG.categorias || ["Chaquetas", "Bodys", "Blusas", "Suéteres Tejidos"]), TS = ["XS", "S", "M", "L", "XL"];
@@ -279,7 +282,7 @@ img{display:block}
       const FIL = pr.filter(r => String(r[0] || "").trim() && si(r[10]) && cid(r[1])).slice(0, 1000);
       products = pr.filter(r => String(r[0] || "").trim() && si(r[10]) && cid(r[1])).slice(0, 1000).map((r, i) => ({
         id: "s" + (i + 2), categoria_id: cid(r[1]), nombre: r[0].trim(), descripcion: r[11] || "", precio: Number(String(r[2]).replace(",", ".")) || 0,
-        tallas: TS.filter((t, k) => si(r[3 + k])).map(t => ({ t, stock: null })), fotos: [foto(r[8]), foto(r[9])].filter(Boolean), nuevo: false, activo: true, orden: i, creado: "" })).map((p, i, a) => {
+        tallas: TS.map((t, k) => ({ t, base: cnt(r[3 + k]) })).filter(x => x.base !== 0).map(x => ({ t: x.t, stock: x.base == null ? null : Math.max(0, x.base - (VEN[VK(r[0], x.t)] || 0)) })), fotos: [foto(r[8]), foto(r[9])].filter(Boolean), nuevo: false, activo: true, orden: i, creado: "" })).map((p, i, a) => {
         const r = FIL[i];
         const pp = num(r[12]), d = fecha(r[13], false), h = fecha(r[14], true);
         if (pp > 0 && pp < p.precio && (!d || ahora >= d) && (!h || ahora <= h)) { p.antes = p.precio; p.precio = pp; p.promo = true; }
@@ -295,6 +298,8 @@ img{display:block}
   const tallasDe = p => p.tallas.filter(disp).map(t => t.t);
   const setDe = catId => { const c = CATS.find(x => x.id === catId); const s = c && SETS.find(x => x.id === c.tallas_id); return s ? s.tallas : null; };
   const uniq = a => a.filter((x, i) => a.indexOf(x) === i);
+  const maxDe = (pid, talla) => { const p = products.find(x => x.id === pid), t = p && p.tallas.find(x => x.t === talla); return t && t.stock != null ? Math.min(20, t.stock) : 20; };
+  const tope = (pid, talla, n) => { const m = maxDe(pid, talla); if (n > m) N.toast(m ? "Solo quedan " + m + " en talla " + talla : "Esa talla se agotó"); return Math.min(m, n); };
 
   function cabecera(){
     const nom = S.nombre || "Catálogo";
@@ -354,7 +359,7 @@ img{display:block}
       $("#clr").onclick = () => { st.size = null; st.q = ""; $("#q").value = ""; render(); }; return; }
     g.innerHTML = list.map(p => { const ts = tallasDe(p); return `<article class="p">
       <div class="ph" data-id="${p.id}">${p.fotos[0] ? `<img src="${esc(N.img(p.fotos[0]))}" alt="${esc(p.nombre)}" loading="lazy">` : ""}${p.promo ? `<span class="promo">PROMO</span><span class="off">-${Math.round((1 - p.precio / p.antes) * 100)}%</span>` : p.nuevo ? `<span class="new">Nuevo</span>` : ""}</div>
-      <div class="b"><h3>${esc(p.nombre)}</h3><div class="s">${ts.length ? "Tallas: " + ts.map(esc).join(" · ") : "Agotado"}</div>
+      <div class="b"><h3>${esc(p.nombre)}</h3><div class="s">${ts.length ? (p.tallas.some(t => t.stock != null) ? "Quedan: " : "Tallas: ") + ts.map(s => { const t = p.tallas.find(x => x.t === s); return esc(s) + (t && t.stock != null ? " (" + t.stock + ")" : ""); }).join(" · ") : "Agotado"}</div>
       <div class="row"><span class="price">${p.promo ? `<s class="antes">${money(p.antes)}</s>` : ""}${money(p.precio)}${bs(p.precio)}</span><button class="ask" data-id="${p.id}" ${ts.length ? "" : "disabled style=\"opacity:.5\""}>Pedir</button></div></div></article>`; }).join("");
     g.querySelectorAll(".ask").forEach(b => b.onclick = () => { const p = products.find(p => p.id === b.dataset.id); p.fotos.length ? zoom(p, 0) : open(p); });
     g.querySelectorAll(".ph").forEach(b => b.onclick = () => zoom(products.find(p => p.id === b.dataset.id), 0));
@@ -367,9 +372,9 @@ img{display:block}
     st.pick = p; st.psize = st.size && tallasDe(p).includes(st.size) ? st.size : null; st.qty = 1; st.foto = 0;
     $("#shName").textContent = p.nombre; $("#shPrice").innerHTML = (p.promo ? `<s class="antes">${money(p.antes)}</s>` : "") + money(p.precio) + bs(p.precio); $("#shDesc").textContent = p.descripcion || "";
     const todas = uniq((setDe(p.categoria_id) || []).concat(p.tallas.map(x => x.t)));
-    $("#shSizes").innerHTML = todas.map(s => { const t = p.tallas.find(x => x.t === s); const ok = t && disp(t); const pocas = t && t.stock != null && t.stock > 0 && t.stock <= 2;
-      return `<button class="sz" data-s="${esc(s)}" ${ok ? "" : "disabled"}>${esc(s)}${pocas ? `<small>quedan ${t.stock}</small>` : ""}</button>`; }).join("");
-    $("#shSizes").querySelectorAll(".sz:not([disabled])").forEach(b => b.onclick = () => { st.psize = b.dataset.s; sheet(); });
+    $("#shSizes").innerHTML = todas.map(s => { const t = p.tallas.find(x => x.t === s); const ok = t && disp(t); const pocas = t && t.stock != null && t.stock > 0;
+      return `<button class="sz" data-s="${esc(s)}" ${ok ? "" : "disabled"}>${esc(s)}${pocas ? `<small>quedan ${t.stock}</small>` : t && t.stock === 0 ? `<small>agotada</small>` : ""}</button>`; }).join("");
+    $("#shSizes").querySelectorAll(".sz:not([disabled])").forEach(b => b.onclick = () => { st.psize = b.dataset.s; st.qty = Math.max(1, Math.min(st.qty, maxDe(st.pick.id, st.psize))); sheet(); });
     $("#okm").style.display = "none";
     try { const c = JSON.parse(localStorage.getItem("cat_cliente") || "{}"); if (c.n && !$("#cN").value) $("#cN").value = c.n; if (c.t && !$("#cT").value) $("#cT").value = c.t; } catch(e) {}
     fotos(); sheet(); $("#ov").classList.add("show"); $("#sheet").classList.add("show");
@@ -398,12 +403,12 @@ img{display:block}
     $("#cFoot").style.display = cart.length ? "" : "none";
     $("#cTot").innerHTML = money(cTotal()) + (RATE ? ` <small>· Bs ${bsv(cTotal())}</small>` : "");
     $("#cOrder").disabled = !cart.length || $("#kN").value.trim().length < 2;
-    $("#cList").querySelectorAll("button").forEach(b => b.onclick = () => { const x = cart[+b.dataset.i]; x.cant += +b.dataset.d; if (x.cant < 1) cart.splice(+b.dataset.i, 1); else x.cant = Math.min(20, x.cant); cSave(); cRender(); });
+    $("#cList").querySelectorAll("button").forEach(b => b.onclick = () => { const x = cart[+b.dataset.i]; x.cant += +b.dataset.d; if (x.cant < 1) cart.splice(+b.dataset.i, 1); else x.cant = Math.max(1, tope(x.id, x.talla, x.cant)); cSave(); cRender(); });
   }
   function cOpen(){ try { const c = JSON.parse(localStorage.getItem("cat_cliente") || "{}"); if (c.n && !$("#kN").value) $("#kN").value = c.n; if (c.d && !$("#kDir").value) $("#kDir").value = c.d; } catch(e) {}
     cRender(); $("#sheet").classList.remove("show"); $("#ov").classList.add("show"); $("#cart").classList.add("show"); }
   $("#zAdd").onclick = e => { e.stopPropagation(); const z = $("#zoom"), p = z._p; if (!z._s) return; const x = cart.find(y => y.id === p.id && y.talla === z._s);
-    if (x) x.cant = Math.min(20, x.cant + 1); else cart.push({ id: p.id, nombre: p.nombre, precio: p.precio, antes: p.promo ? p.antes : null, talla: z._s, cant: 1, foto: p.fotos[0] || "" });
+    if (x) x.cant = Math.max(1, tope(p.id, z._s, x.cant + 1)); else cart.push({ id: p.id, nombre: p.nombre, precio: p.precio, antes: p.promo ? p.antes : null, talla: z._s, cant: 1, foto: p.fotos[0] || "" });
     cSave(); N.toast("🛒 Agregado al carrito"); unzoom(); };
   let GEO = "";
   $("#kGps").onclick = () => { const b = $("#kGps"); if (!navigator.geolocation) return N.toast("⚠️ Tu teléfono no permite ubicación");
@@ -415,7 +420,7 @@ img{display:block}
   $("#cartFab").onclick = cOpen; $("#cClose").onclick = close; $("#kN").addEventListener("input", cRender);
   $("#cVaciar").onclick = () => { cart = []; cSave(); cRender(); };
   $("#addCart").onclick = () => { if (!st.psize) return; const p = st.pick; const x = cart.find(y => y.id === p.id && y.talla === st.psize);
-    if (x) x.cant = Math.min(20, x.cant + st.qty); else cart.push({ id: p.id, nombre: p.nombre, precio: p.precio, antes: p.promo ? p.antes : null, talla: st.psize, cant: st.qty, foto: p.fotos[0] || "" });
+    if (x) x.cant = Math.max(1, tope(p.id, st.psize, x.cant + st.qty)); else cart.push({ id: p.id, nombre: p.nombre, precio: p.precio, antes: p.promo ? p.antes : null, talla: st.psize, cant: Math.max(1, tope(p.id, st.psize, st.qty)), foto: p.fotos[0] || "" });
     cSave(); N.toast("🛒 Agregado al carrito"); close(); };
   $("#cOrder").onclick = async () => { if (!cart.length) return; const cli = $("#kN").value.trim().slice(0, 80), dir = $("#kDir").value.trim().slice(0, 300), tel = ""; if (cli.length < 2) return;
     localStorage.setItem("cat_cliente", JSON.stringify({ n: cli, d: dir })); const cod = N.codigo("C");
@@ -431,7 +436,7 @@ img{display:block}
     if (z._pid !== p.id) { z._pid = p.id; z._s = st.size && tallasDe(p).includes(st.size) ? st.size : null;
       const todas = uniq((setDe(p.categoria_id) || []).concat(p.tallas.map(x => x.t)));
       if (!todas.length) z._s = "Única";
-      $("#zSizes").innerHTML = todas.map(s => { const t = p.tallas.find(x => x.t === s); return `<button data-s="${esc(s)}" ${t && disp(t) ? "" : "disabled"}>${esc(s)}</button>`; }).join("");
+      $("#zSizes").innerHTML = todas.map(s => { const t = p.tallas.find(x => x.t === s); return `<button data-s="${esc(s)}" ${t && disp(t) ? "" : "disabled"}>${esc(s)}${t && t.stock != null && t.stock > 0 ? " (" + t.stock + ")" : ""}</button>`; }).join("");
       $("#zSizes").querySelectorAll("button:not([disabled])").forEach(b => b.onclick = e => { e.stopPropagation(); z._s = b.dataset.s; zSz(); }); }
     zSz();
     $("#zDots").innerHTML = f.length > 1 ? f.map((_, k) => `<i class="${k === z._i ? "on" : ""}"></i>`).join("") : "";
@@ -447,7 +452,7 @@ img{display:block}
   $("#shImg").style.cursor = "zoom-in"; $("#shImg").onclick = () => zoom(st.pick, st.foto || 0);
   $("#ov").onclick = close; $("#shClose").onclick = close;
   $("#qm").onclick = () => { st.qty = Math.max(1, st.qty - 1); sheet(); };
-  $("#qp").onclick = () => { st.qty = Math.min(20, st.qty + 1); sheet(); };
+  $("#qp").onclick = () => { st.qty = st.psize ? Math.max(1, tope(st.pick.id, st.psize, st.qty + 1)) : Math.min(20, st.qty + 1); sheet(); };
   $("#order").onclick = async () => {
     if (!st.psize || !okDatos()) return; const p = st.pick, cod = N.codigo("C");
     const cli = $("#cN").value.trim().slice(0, 80), tel = $("#cT").value.trim().slice(0, 30);
