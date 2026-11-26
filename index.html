@@ -47,8 +47,9 @@ img{display:block}
 .search svg{position:absolute;left:16px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:var(--gold)}
 .chips{display:flex;gap:8px;overflow-x:auto;padding:12px 16px 2px;scrollbar-width:none}
 .chips::-webkit-scrollbar{display:none}
-.tabs{position:sticky;top:0;z-index:50;display:grid;grid-template-columns:repeat(4,1fr);gap:0;padding:0;margin:14px 12px 0;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#f6ebe7;box-shadow:0 2px 8px rgba(0,0,0,.06)}
-.tabs .chip{border:0;border-right:1px solid var(--line);border-radius:0;background:transparent;padding:12px 4px;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.3px;line-height:1.2;white-space:normal}
+.tabs{position:sticky;top:0;z-index:50;display:flex;overflow-x:auto;scrollbar-width:none;gap:0;padding:0;margin:14px 12px 0;border-radius:14px;border:1px solid var(--line);background:#f6ebe7;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.tabs::-webkit-scrollbar{display:none}
+.tabs .chip{flex:1 0 auto;border:0;border-right:1px solid var(--line);border-radius:0;background:transparent;padding:12px 12px;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.3px;line-height:1.2;white-space:nowrap}
 .tabs .chip:last-child{border-right:0}
 .tabs .chip.on{background:var(--goldg);color:#fff}
 .sel{padding:14px 16px 0;font-weight:700;font-size:15px;text-transform:uppercase;letter-spacing:.5px}
@@ -273,7 +274,7 @@ img{display:block}
       if (ve.length && ve[0].length >= 4 && ve[0].length <= 6) ve.forEach(r => { const q = parseInt(String(r[3] || "").trim(), 10); if (String(r[1] || "").trim() && q > 0) VEN[VK(r[1], r[2])] = (VEN[VK(r[1], r[2])] || 0) + q; });
       const K = { nombre: "nombre", whatsapp: "whatsapp", lema: "lema", "envíos": "envios", envios: "envios", insignia: "insignia", tasa: "tasa" };
       cf.forEach(r => { const k = K[String(r[0] || "").trim().toLowerCase()]; if (k && String(r[1] || "").trim()) S[k] = String(r[1]).trim(); });
-      const NOMS = (window.APP_CONFIG.categorias || ["Chaquetas", "Bodys", "Blusas", "Suéteres Tejidos"]), TS = ["XS", "S", "M", "L", "XL"];
+      const NOMS = (window.APP_CONFIG.categorias || ["Chaquetas", "Bodys", "Blusas", "Suéteres Tejidos", "Temporada"]), TS = ["XS", "S", "M", "L", "XL"];
       SETS = [{ id: "t", tallas: TS }]; CATS = NOMS.map((n, i) => ({ id: "c" + i, nombre: n, tallas_id: "t", orden: i }));
       const cid = n => { const v = String(n || "").trim().toLowerCase().replace(/^bodies$/, "bodys"); const i = NOMS.findIndex(x => x.toLowerCase() === v); return i < 0 ? null : "c" + i; };
       const fecha = (v, fin) => { const m = String(v || "").trim().match(/^(\d{1,2})[\/\-.](\d{1,2})(?:[\/\-.](\d{2,4}))?$/); if (!m) return null; let y = m[3] ? +m[3] : new Date().getFullYear(); if (y < 100) y += 2000; return fin ? new Date(y, m[2] - 1, +m[1], 23, 59, 59) : new Date(y, m[2] - 1, +m[1], 0, 0, 0); };
