@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Koala Chic · Panel</title>
+<meta name="theme-color" content="#fbf4f1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Koala Chic">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="assets/icon-192.png">
+<link rel="apple-touch-icon" href="assets/icon-192.png">
+<link rel="stylesheet" href="assets/fonts.css">
+<script src="config.js"></script>
+<style>
+:root{--bg:#fbf4f1;--card:#fff;--card2:#fff;--soft:#f6ebe7;--line:rgba(164,134,123,.28);--line2:rgba(164,134,123,.6);--gold:#a4867b;--gold2:#8a6c62;--rosa:#c98aa3;--rosa2:#a4867b;--g:linear-gradient(135deg,#a4867b 0%,#c98aa3 55%,#f4a7c8 100%);--sg:linear-gradient(135deg,#8a6c62 0%,#a4867b 50%,#c98aa3 100%);--txt:#3f302b;--mut:#8f7a72;--ok:#2e9d5b;--bad:#d2335c;--sh:0 6px 22px rgba(120,80,70,.10);--safeb:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{background:var(--bg);color:var(--txt);font-family:'Poppins',system-ui,sans-serif;font-size:15px;line-height:1.4;max-width:520px;margin:0 auto;overscroll-behavior-y:none}
+button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
+button{cursor:pointer}
+.serif{font-family:'Playfair Display',Georgia,serif}
+.hide{display:none!important}
+.scr{min-height:100%;display:flex;flex-direction:column}
+
+/* ---------- login ---------- */
+#login{align-items:center;justify-content:space-between;padding:54px 28px calc(28px + var(--safeb));background:radial-gradient(120% 55% at 50% 0%,#f8e1e8 0%,var(--bg) 62%)}
+#vClave{align-items:center;justify-content:flex-start;gap:26px;padding:54px 24px calc(28px + var(--safeb));background:radial-gradient(120% 55% at 50% 0%,#f8e1e8 0%,var(--bg) 62%)}
+#vClave .lg-top p{text-transform:none;letter-spacing:.2px;font-size:14px;margin-top:8px}
+#vClave .f{text-align:left}
+.lg-top{text-align:center}
+.lg-logo{width:104px;height:104px;border-radius:50%;object-fit:cover;border:1px solid var(--line2);box-shadow:0 0 0 3px rgba(217,222,229,.18),var(--sh);background:#000}
+.lg-top h1{font-size:28px;font-weight:800;margin-top:16px;letter-spacing:.3px}
+.lg-top p{color:var(--mut);font-size:13px;letter-spacing:2px;text-transform:uppercase;margin-top:2px}
+.lg-pin{width:100%;max-width:340px;text-align:center}
+.lg-pin .lbl{display:block;font-size:14px;color:var(--mut);margin-bottom:12px}
+.pinbox{position:relative}
+#pinIn{width:100%;height:64px;border-radius:18px;border:1.5px solid var(--line2);background:var(--card2);color:var(--txt);text-align:center;font-size:28px;font-weight:600;letter-spacing:8px;text-transform:uppercase;padding:0 52px}
+#pinIn:focus{outline:none;border-color:var(--rosa);box-shadow:0 0 0 3px rgba(201,138,163,.22)}
+.eye{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:42px;height:42px;border:0;border-radius:50%;background:none;color:var(--mut);display:flex;align-items:center;justify-content:center}
+.eye svg{width:22px;height:22px}.eye.on{color:var(--rosa)}
+.err{color:var(--bad);font-size:13px;min-height:20px;margin:8px 0 6px}
+.shake{animation:shake .4s}
+@keyframes shake{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+.lnk{background:none;border:0;color:var(--rosa);font-size:13.5px;font-weight:600;margin-top:14px;padding:6px}
+.lg-note{font-size:12px;color:var(--mut);margin-top:12px}
+
+/* ---------- cabecera ---------- */
+.top{position:sticky;top:0;z-index:20;background:rgba(251,244,241,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:14px 16px 10px;border-bottom:1px solid transparent}
+.top.sc{border-bottom-color:var(--line)}
+.brand{display:flex;align-items:center;gap:10px}
+.brand img{width:42px;height:42px;border-radius:50%;object-fit:cover;border:1px solid var(--line2);background:#000;flex:0 0 auto}
+.brand .t{flex:1;min-width:0}
+.brand h1{font-size:19px;font-weight:800;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand small{display:block;font-size:10.5px;letter-spacing:1.6px;text-transform:uppercase;color:var(--mut)}
+.pill{font-size:10.5px;font-weight:700;letter-spacing:.6px;padding:4px 9px;border-radius:999px;background:rgba(201,138,163,.14);border:1px solid rgba(201,138,163,.45);color:#a4567a;white-space:nowrap}
+.search{position:relative;margin-top:12px}
+.search input{width:100%;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px 12px 42px;font-size:15px}
+.search input:focus{outline:none;border-color:var(--gold)}
+.search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:var(--gold)}
+.chips{display:flex;gap:8px;overflow-x:auto;margin:10px -16px 0;padding:0 16px 2px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;padding:7px 13px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-size:13px;font-weight:500;white-space:nowrap}
+.chip b{font-weight:600;color:var(--mut);margin-left:4px;font-size:11.5px}
+.chip.on{background:var(--g);color:#fff;border-color:transparent}
+.chip.on b{color:rgba(255,255,255,.85)}
+
+/* ---------- lista ---------- */
+main{flex:1;padding:6px 16px calc(150px + var(--safeb))}
+.cnt{font-size:12.5px;color:var(--mut);margin:6px 2px 10px}
+.cnt b{color:var(--txt)}
+.it{display:flex;gap:12px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:9px 12px 9px 9px;margin-bottom:10px;box-shadow:0 2px 10px rgba(120,80,70,.08)}
+.it .ph{width:62px;height:78px;border-radius:12px;background:var(--soft) center/cover no-repeat;flex:0 0 auto;position:relative;overflow:hidden}
+.it .ph.off::after{content:"";position:absolute;inset:0;background:rgba(13,15,18,.6)}
+.it .ph .nf{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:22px;color:var(--gold)}
+.it .b{flex:1;min-width:0}
+.it h3{font-size:14px;font-weight:600;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.it .m{font-size:11.5px;color:var(--mut);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.it .pr{display:flex;align-items:baseline;gap:6px;margin-top:4px;flex-wrap:wrap}
+.it .pr .v{font-family:'Playfair Display',serif;font-weight:700;font-size:17px;color:var(--gold2)}
+.it .pr s{font-size:12px;color:var(--mut)}
+.tag{font-size:10px;font-weight:700;letter-spacing:.4px;padding:2px 7px;border-radius:999px;text-transform:uppercase}
+.tag.promo{background:rgba(201,138,163,.16);color:#a4567a}
+.tag.off{background:rgba(217,222,229,.1);color:var(--mut)}
+.it .r{display:flex;flex-direction:column;align-items:center;gap:4px;flex:0 0 auto}
+.it .r small{font-size:10px;color:var(--mut)}
+.sw{position:relative;width:46px;height:28px;flex:0 0 auto}
+.sw input{opacity:0;width:0;height:0;position:absolute}
+.sw span{position:absolute;inset:0;border-radius:999px;background:#3a4049;transition:.2s}
+.sw span::before{content:"";position:absolute;width:22px;height:22px;left:3px;top:3px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:.2s}
+.sw input:checked+span{background:var(--ok)}
+.sw input:checked+span::before{transform:translateX(18px)}
+.empty{text-align:center;color:var(--mut);padding:50px 20px;border:1px dashed var(--line2);border-radius:18px;background:rgba(22,25,30,.6)}
+.skel{height:98px;border-radius:18px;margin-bottom:10px;background:linear-gradient(90deg,#16191e 25%,#1e2228 50%,#16191e 75%);background-size:200% 100%;animation:sk 1.2s infinite}
+@keyframes sk{to{background-position:-200% 0}}
+
+.fab{position:fixed;right:max(16px,calc(50% - 244px));bottom:calc(82px + var(--safeb));z-index:30;border:0;border-radius:999px;background:var(--g);color:#fff;font-weight:700;font-size:15px;padding:15px 22px 15px 18px;display:flex;align-items:center;gap:8px;box-shadow:0 10px 26px rgba(164,134,123,.45)}
+.fab svg{width:20px;height:20px}
+
+/* ---------- barra inferior ---------- */
+.nav{position:fixed;left:50%;transform:translateX(-50%);bottom:0;width:100%;max-width:520px;z-index:25;display:grid;grid-template-columns:repeat(3,1fr);background:rgba(255,255,255,.96);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:6px 6px calc(8px + var(--safeb))}
+.nav button{border:0;background:none;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;font-weight:500;color:var(--mut);padding:6px 0}
+.nav svg{width:24px;height:24px}
+.nav button.on{color:var(--gold2);font-weight:700}
+.nav button.on svg{color:var(--rosa)}
+
+/* ---------- formulario ---------- */
+.hd{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:8px;padding:12px 12px 10px;background:rgba(251,244,241,.95);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.hd h2{flex:1;font-size:19px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ib{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--card);display:flex;align-items:center;justify-content:center;color:var(--gold2);flex:0 0 auto}
+.ib svg{width:20px;height:20px}
+.form{padding:14px 16px calc(110px + var(--safeb))}
+.sec{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:14px;margin-bottom:12px}
+.sec h4{font-size:12px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--mut);margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.fotos{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
+.slot{position:relative;border-radius:16px;background:var(--soft) center/cover no-repeat;border:1.5px dashed var(--line2);aspect-ratio:3/4;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:var(--gold2);text-align:center}
+.slot.has{border-style:solid;border-color:var(--line)}
+.slot .ic{font-size:26px}
+.slot .tx{font-size:12px;font-weight:600}
+.slot .tx small{display:block;font-weight:400;color:var(--mut);font-size:11px}
+.slot .acts{position:absolute;left:8px;right:8px;bottom:8px;display:flex;gap:6px}
+.slot .acts button{flex:1;min-width:0;flex-direction:column;border:0;border-radius:10px;padding:6px 2px;font-size:11px;line-height:1.1;font-weight:600;background:rgba(255,255,255,.92);color:var(--txt);box-shadow:0 2px 8px rgba(0,0,0,.12);display:flex;align-items:center;justify-content:center;gap:4px}
+.slot .acts svg{width:17px;height:17px}
+.slot:not(.has) .acts{position:static;width:calc(100% - 16px);margin-top:10px}
+.slot .x{position:absolute;top:8px;right:8px;width:28px;height:28px;border-radius:50%;border:0;background:rgba(255,255,255,.92);color:var(--bad);font-size:17px;line-height:1;box-shadow:0 1px 4px rgba(0,0,0,.15)}
+.slot .lbl{position:absolute;top:8px;left:8px;font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;background:rgba(255,255,255,.92);color:var(--gold2);padding:3px 8px;border-radius:999px}
+.slot .up{position:absolute;inset:0;background:rgba(13,15,18,.75);display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:600}
+.f{margin-bottom:12px}
+.f:last-child{margin-bottom:0}
+.f label{display:block;font-size:12.5px;font-weight:600;color:var(--gold2);margin:0 2px 5px}
+.f input,.f select,.f textarea{width:100%;background:var(--soft);border:1px solid transparent;border-radius:13px;padding:12px 13px;font-size:16px;appearance:none;-webkit-appearance:none}
+.f textarea{resize:none;min-height:70px}
+.f input:focus,.f select:focus,.f textarea:focus{outline:none;border-color:var(--rosa);background:var(--card2)}
+.f .hint{font-size:11.5px;color:var(--mut);margin:5px 2px 0}
+.money{position:relative}.money span{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--mut);font-weight:600}.money input{padding-left:28px}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}.two>*{min-width:0}
+input[type=date]{min-width:0;max-width:100%;display:block;min-height:46px}
+.hint{font-size:11.5px;color:var(--mut);margin:5px 2px 0;line-height:1.35}
+.sel{position:relative}.sel::after{content:"";position:absolute;right:15px;top:50%;width:8px;height:8px;border-right:2px solid var(--gold);border-bottom:2px solid var(--gold);transform:translateY(-70%) rotate(45deg);pointer-events:none}
+.catg{display:flex;flex-wrap:wrap;gap:8px}
+.catg button{border:1px solid var(--line);background:var(--soft);border-radius:999px;padding:8px 13px;font-size:13.5px;font-weight:500}
+.catg button.on{background:var(--g);color:#fff;border-color:transparent;font-weight:600}
+.szs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.szc{border:1px solid var(--line);border-radius:14px;background:var(--soft);padding:7px 2px 6px;text-align:center;transition:.15s}
+.szc.on{background:rgba(201,138,163,.1);border-color:var(--rosa);box-shadow:0 0 0 1px var(--rosa) inset}
+.szc .n{font-weight:700;font-size:14px;display:block;width:100%;border:0;background:none;padding:2px 0}
+.szc .q{display:flex;align-items:center;justify-content:center;gap:2px;margin-top:3px}
+.szc .q button{width:22px;height:22px;border-radius:50%;border:1px solid var(--line2);background:var(--card);color:var(--txt);font-size:14px;line-height:1;padding:0}
+.szc .q b{min-width:16px;font-size:13px}
+.szc .no{font-size:10.5px;color:var(--mut);display:block;margin-top:5px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.row .t b{display:block;font-size:14.5px}
+.row .t small{color:var(--mut);font-size:12px;line-height:1.3;display:block}
+.save{position:fixed;left:50%;transform:translateX(-50%);bottom:0;width:100%;max-width:520px;z-index:25;padding:12px 16px calc(14px + var(--safeb));background:linear-gradient(to top,var(--bg) 70%,rgba(251,244,241,0))}
+.btn{width:100%;border:0;border-radius:999px;background:var(--g);color:#fff;padding:15px;font-size:16px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 8px 22px rgba(164,134,123,.35)}
+.btn:disabled{opacity:.6}
+.btn2{width:100%;border:1.5px solid var(--line2);background:var(--card);color:var(--gold2);border-radius:999px;padding:13px;font-size:14.5px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:8px}
+.del{width:100%;border:0;background:none;color:var(--bad);font-weight:600;font-size:14.5px;padding:14px;display:flex;align-items:center;justify-content:center;gap:6px}
+.del svg{width:18px;height:18px}
+.spin{width:18px;height:18px;border:2.5px solid rgba(255,255,255,.5);border-top-color:#fff;border-radius:50%;animation:rot .7s linear infinite}
+@keyframes rot{to{transform:rotate(360deg)}}
+
+/* ajustes */
+.brandimg{display:grid;grid-template-columns:96px 1fr;gap:12px;align-items:stretch}
+.logo-slot{aspect-ratio:1;border-radius:50%}
+.cover-slot{aspect-ratio:auto;border-radius:16px;min-height:96px}
+.mini{display:flex;gap:6px;margin-top:8px}
+.mini button{flex:1;border:1px solid var(--line);background:var(--soft);border-radius:10px;padding:7px 4px;font-size:12px;font-weight:600;color:var(--gold2);display:flex;align-items:center;justify-content:center;gap:4px}
+.mini svg{width:14px;height:14px}
+.cap{font-size:11.5px;color:var(--mut);text-align:center;margin-top:4px}
+.vit{display:flex;align-items:center;gap:12px;background:var(--g);color:#fff;border-radius:20px;padding:14px 16px;border:0;width:100%;text-align:left;margin-bottom:12px;box-shadow:0 8px 22px rgba(164,134,123,.3)}
+.vit svg{width:28px;height:28px;flex:0 0 auto}
+.vit b{display:block;font-size:15.5px}
+.vit small{font-size:12px;opacity:.9;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vit .t{flex:1;min-width:0}
+.foot{text-align:center;font-size:11.5px;color:var(--mut);margin-top:16px}
+
+/* toast + confirmar */
+#toast{position:fixed;left:50%;top:calc(14px + env(safe-area-inset-top,0px));transform:translate(-50%,-140%);z-index:100;max-width:calc(100% - 28px);width:max-content;background:#3f302b;color:#fff;border:1px solid rgba(0,0,0,.05);border-radius:16px;padding:12px 16px;font-size:14px;font-weight:500;display:flex;align-items:center;gap:10px;box-shadow:0 12px 30px rgba(0,0,0,.25);transition:transform .35s cubic-bezier(.2,1.2,.4,1)}
+#toast.show{transform:translate(-50%,0)}
+#toast .i{width:24px;height:24px;border-radius:50%;background:var(--ok);display:flex;align-items:center;justify-content:center;flex:0 0 auto;font-size:13px}
+#toast.bad .i{background:var(--bad)}
+#ov{position:fixed;inset:0;z-index:90;background:rgba(63,48,43,.45);display:flex;align-items:flex-end;justify-content:center;opacity:0;visibility:hidden;transition:.25s}
+#ov.show{opacity:1;visibility:visible}
+.dlg{width:100%;max-width:520px;background:var(--card);border-top:1px solid var(--line2);border-radius:24px 24px 0 0;padding:22px 20px calc(18px + var(--safeb));transform:translateY(100%);transition:.3s}
+#ov.show .dlg{transform:none}
+.dlg h3{font-size:19px;margin-bottom:6px}
+.dlg p{color:var(--mut);font-size:14px;margin-bottom:16px}
+.dlg .btn.danger{background:var(--bad);box-shadow:none}
+.dlg .btn2{margin-top:8px}
+/* títulos con el degradado de la marca */
+.lg-top h1,.brand h1,.hd h2{background:var(--sg);-webkit-background-clip:text;background-clip:text;color:transparent}
+.f input,.f select,.f textarea{color:var(--txt);border-color:var(--line)}
+.f input::placeholder,.f textarea::placeholder,.search input::placeholder{color:#b8a59e}
+input[type=date]{color-scheme:light}
+select option{background:var(--card2);color:var(--txt)}
+.it .pr .v{color:var(--txt)}
+.slot .acts button svg,.mini svg{color:var(--rosa)}
+</style>
+</head>
+<body>
+
+<!-- ============ LOGIN ============ -->
+<section id="login" class="scr hide">
+  <div class="lg-top">
+    <img class="lg-logo" id="lgLogo" alt="">
+    <h1 class="serif" id="lgName">Mi tienda</h1>
+    <p>Panel de la tienda</p>
+  </div>
+  <form class="lg-pin" id="pinForm" autocomplete="off" novalidate>
+    <div class="f" style="text-align:left"><label for="mailIn">Correo</label><input id="mailIn" type="email" inputmode="email" autocomplete="username" autocapitalize="off" spellcheck="false" placeholder="tucorreo@gmail.com"></div>
+    <label class="lbl" for="pinIn" style="text-align:left;font-size:12.5px;font-weight:600;color:var(--gold2);margin:0 2px 5px">Clave</label>
+    <div class="pinbox">
+      <input id="pinIn" type="password" inputmode="text" autocapitalize="characters" autocorrect="off" autocomplete="off" spellcheck="false" maxlength="20" enterkeyhint="go" aria-label="Clave">
+      <button type="button" class="eye" id="pinEye" aria-label="Mostrar clave"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></button>
+    </div>
+    <div class="err" id="pinErr" role="alert"></div>
+    <button class="btn" type="submit" id="pinGo">Entrar</button>
+    <p class="lg-note">Clave de 8 letras o números.</p>
+    <button type="button" class="lnk" id="olvBtn">¿Olvidaste tu clave?</button>
+  </form>
+  <div></div>
+</section>
+
+<!-- ============ CLAVE (crear, cambiar, recuperar) ============ -->
+<section id="vClave" class="scr hide">
+  <div class="lg-top">
+    <h1 class="serif" id="kT">Crea tu clave</h1>
+    <p id="kP">Solo tú la sabrás. Mínimo 8 letras o números.</p>
+  </div>
+  <form class="lg-pin" id="kForm" autocomplete="off" novalidate>
+    <div id="kPaso1" class="hide">
+      <p class="lg-note" id="kCorreoTx" style="margin-bottom:14px">Te enviamos un código de 6 números al correo de la tienda.</p>
+      <button type="button" class="btn" id="kEnviar">Enviar código a mi correo</button>
+      <div class="f hide" id="kCodF" style="margin-top:14px"><label for="kCod">Código del correo</label><input id="kCod" inputmode="numeric" maxlength="6" placeholder="123456" autocomplete="one-time-code"></div>
+    </div>
+    <div id="kNuevas">
+      <div class="f"><label for="kN1">Clave nueva</label><input id="kN1" type="password" autocapitalize="characters" autocorrect="off" spellcheck="false" maxlength="20" placeholder="Mínimo 8 caracteres"></div>
+      <div class="f"><label for="kN2">Repite la clave</label><input id="kN2" type="password" autocapitalize="characters" autocorrect="off" spellcheck="false" maxlength="20"></div>
+    </div>
+    <div class="err" id="kErr" role="alert"></div>
+    <button class="btn" type="submit" id="kGo">Guardar clave</button>
+    <button class="btn2" type="button" id="kNo" style="margin-top:10px">Cancelar</button>
+  </form>
+  <div></div>
+</section>
+
+<!-- ============ PRODUCTOS ============ -->
+<section id="vProductos" class="scr hide">
+  <header class="top" id="topP">
+    <div class="brand">
+      <img id="hLogo" alt="">
+      <div class="t"><h1 class="serif" id="hName">Mi tienda</h1><small>Panel de la tienda</small></div>
+      <span class="pill" id="demoPill">VISTA PREVIA</span>
+    </div>
+    <label class="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Buscar un producto…" autocomplete="off">
+    </label>
+    <div class="chips" id="chips"></div>
+  </header>
+  <main>
+    <div class="cnt" id="cnt"></div>
+    <div id="list"></div>
+  </main>
+  <button class="fab" id="fab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Nuevo producto</button>
+</section>
+
+<!-- ============ EDITAR / NUEVO ============ -->
+<section id="vEditar" class="scr hide">
+  <header class="hd">
+    <button class="ib" id="back" aria-label="Volver"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+    <h2 class="serif" id="eTitle">Editar producto</h2>
+  </header>
+  <div class="form">
+    <div class="sec">
+      <h4>Fotos</h4>
+      <div class="fotos"><div class="slot" id="slot0"></div><div class="slot" id="slot1"></div></div>
+    </div>
+    <div class="sec">
+      <div class="f"><label for="fNombre">Nombre</label><input id="fNombre" maxlength="80" placeholder="Ej: Body negro de encaje"></div>
+      <div class="f"><label>Categoría</label><div class="catg" id="fCat"></div></div>
+      <div class="f"><label for="fDesc">Descripción <span style="font-weight:400;color:var(--mut)">(opcional)</span></label><textarea id="fDesc" maxlength="200" placeholder="Ej: Talla S/M"></textarea></div>
+    </div>
+    <div class="sec">
+      <h4>Precio</h4>
+      <div class="f"><label for="fPrecio">Precio normal</label><div class="money"><span id="m1">$</span><input id="fPrecio" inputmode="decimal" placeholder="0"></div></div>
+    </div>
+    <div class="sec">
+      <h4><span>Promoción</span><label class="sw"><input type="checkbox" id="fPromoOn"><span></span></label></h4>
+      <div id="promoBox">
+        <div class="f"><label for="fPromo">Precio en promo</label><div class="money"><span id="m2">$</span><input id="fPromo" inputmode="decimal" placeholder="0"></div></div>
+        <div class="two">
+          <div class="f"><label for="fDesde">Desde</label><input id="fDesde" type="date"></div>
+          <div class="f"><label for="fHasta">Hasta</label><input id="fHasta" type="date"></div>
+        </div>
+        <p class="hint" id="promoHint" style="margin-top:2px"></p>
+      </div>
+    </div>
+    <div class="sec">
+      <h4>Tallas y cantidad</h4>
+      <div class="szs" id="fTallas"></div>
+      <p class="hint" style="margin-top:8px">Toca una talla para activarla y usa − / + para las unidades.</p>
+    </div>
+    <div class="sec">
+      <div class="row">
+        <div class="t"><b id="dispTxt">Disponible</b><small id="dispSub">Se ve en tu vitrina</small></div>
+        <label class="sw"><input type="checkbox" id="fDisp"><span></span></label>
+      </div>
+    </div>
+    <button class="del" id="fDel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg>Borrar este producto</button>
+  </div>
+  <div class="save"><button class="btn" id="fSave">Guardar cambios</button></div>
+</section>
+
+<!-- ============ AJUSTES ============ -->
+<section id="vAjustes" class="scr hide">
+  <header class="hd"><h2 class="serif" style="padding-left:4px">Ajustes de la tienda</h2></header>
+  <div class="form" style="padding-bottom:calc(190px + var(--safeb))">
+    <button class="vit" id="vitBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9M4 9v11h16V9M3 9h18M9 20v-6h6v6"/></svg>
+      <div class="t"><b>Ver mi vitrina</b><small id="vitUrl"></small></div>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" style="width:20px;height:20px"><path d="M7 17L17 7M8 7h9v9"/></svg>
+    </button>
+    <div class="sec">
+      <h4>Imagen de tu marca</h4>
+      <div class="brandimg">
+        <div><div class="slot logo-slot" id="sLogo"></div><div class="cap">Logo</div></div>
+        <div><div class="slot cover-slot" id="sPortada"></div><div class="cap">Portada</div></div>
+      </div>
+    </div>
+    <div class="sec">
+      <h4>Datos de la tienda</h4>
+      <div class="f"><label for="aNombre">Nombre de la tienda</label><input id="aNombre" maxlength="40"></div>
+      <div class="f"><label for="aWa">WhatsApp para pedidos</label><input id="aWa" inputmode="tel" placeholder="58424…"><p class="hint">Con código de país, sin “+” ni espacios. Ej: 584247419637</p></div>
+      <div class="f"><label for="aLema">Frase de portada</label><input id="aLema" maxlength="80"></div>
+      <div class="f"><label for="aEnv">Envíos y pagos</label><textarea id="aEnv" maxlength="140"></textarea></div>
+    </div>
+    <button class="btn2" id="aSalir">Cerrar sesión</button>
+    <button class="del hide" id="aReset" style="font-size:13px;color:var(--mut)">Reiniciar la vista previa</button>
+    <p class="foot" id="aFoot"></p>
+  </div>
+  <div class="save" style="bottom:calc(64px + var(--safeb));padding-bottom:10px"><button class="btn" id="aSave">Guardar ajustes</button></div>
+</section>
+
+<nav class="nav hide" id="nav">
+  <button data-v="vProductos" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3l5 3-2 4-2-1v12H7V9L5 10 3 6l5-3c0 2 2 3 4 3s4-1 4-3z"/></svg>Productos</button>
+  <button data-v="vAjustes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Ajustes</button>
+  <button data-v="vitrina"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9M4 9v11h16V9M3 9h18M9 20v-6h6v6"/></svg>Ver mi vitrina</button>
+</nav>
+
+<div id="toast"><span class="i">✓</span><span id="toastTx"></span></div>
+<div id="ov"><div class="dlg"><h3 class="serif" id="dT"></h3><p id="dP"></p><button class="btn danger" id="dOk">Borrar</button><button class="btn2" id="dNo">Cancelar</button></div></div>
+<input type="file" id="fileCam" accept="image/*" capture="environment" class="hide">
+<input type="file" id="fileGal" accept="image/*" class="hide">
+
+<script>if (!(window.PANEL_CONFIG || {}).apiUrl) document.write('<script src="mock/koala-snapshot.js"><\/script>');</script>
+<script src="api.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
